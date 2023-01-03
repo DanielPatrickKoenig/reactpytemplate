@@ -21,6 +21,10 @@ def get_file_path(req):
     user_id = auth.user.id
     return get_base_path(req) + '/static/state_' + str(user_id) + '.txt'
 
+def get_archive_path(req, data_key):
+    return get_base_path(req) + '/static/archive/state_' + data_key + '.txt'
+
+
 def default_user_content():
     return 'this is test data'
 
@@ -39,4 +43,11 @@ def save_data():
     f = open(get_file_path(request), "w")
     f.write(data_to_save)
     f.close()
+
+def archive_data():
+    data_to_save = request.vars['content']
+    f = open(get_archive_path(request, request.vars['data_key']), "w")
+    f.write(data_to_save)
+    f.close()
+    return response.json(dict(status='success'))
     
